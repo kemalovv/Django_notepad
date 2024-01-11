@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<p>
+  <a href="{% url 'notepad:index' %}">Notepad</a> -
+    <a href="{% url 'notepad:topics' %}">Topics</a>
+</p>
+
+{% block content %}{% endblock content %}
+</body>
+</html>
