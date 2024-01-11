@@ -1,3 +1,6 @@
 from django.shortcuts import render
 
-# Create your views here.
+
+def index(request):
+    """Homepage for notepad"""
+    return render(request, 'notepad/index.html')
