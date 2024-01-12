@@ -9,15 +9,16 @@
 
 {% block content %}
 
-  <p>Topics</p>
+<p>Entries</p>
 
   <ul>
-    {% for topic in topics %}
+    {% for entry in entries %}
       <li>
-          <a href="{% url 'notepad:topic' topic.id %}">{{ topic }}</a>
+        <p>{{ entry.date_added|date:'M d, Y H:i' }}</p>
+        <p>{{ entry.text|linebreaks }}</p>
       </li>
     {% empty %}
-      <li>No topics have been added yet</li>
+      <li>There are no entries for this topic yet</li>
     {% endfor %}
   </ul>
 
