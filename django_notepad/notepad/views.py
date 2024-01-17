@@ -24,8 +24,7 @@ def topic(request, topic_id):
     """Shows 1 topic and its notes"""
     topic = Topic.objects.get(id=topic_id)
     # Checks if topic belongs to the right user
-    if topic.owner != request.user:
-        raise Http404
+    check_topic_owner(request, topic)
     entries = topic.entry_set.order_by('-date_added')
     context = {'topic': topic, 'entries': entries}
     return render(request, 'notepad/topic.html', context)
@@ -55,6 +54,8 @@ def new_topic(request):
 def new_entry(request, topic_id):
     """"Add a new entry into specific topic"""
     topic = Topic.objects.get(id=topic_id)
+    check_topic_owner(request, topic)
+
     if request.method != 'POST':
         # No data was sent so we're creating an empty form
         form = EntryForm()
@@ -77,8 +78,7 @@ def edit_entry(request, entry_id):
     """"Editing entry"""
     entry = Entry.objects.get(id=entry_id)
     topic = entry.topic
-    if topic.owner != request.user:
-        raise Http404
+    check_topic_owner(request, topic)
 
     if request.method != 'POST':
         # Form fills with existing text
@@ -92,3 +92,8 @@ def edit_entry(request, entry_id):
 
     context = {'entry': entry, 'topic': topic, 'form': form}
     return render(request, 'notepad/edit_entry.html', context)
+
+
+def check_topic_owner(request, topic):
+    if topic.owner != request.user:
+        raise Http404
