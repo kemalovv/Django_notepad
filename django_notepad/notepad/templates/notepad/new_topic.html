@@ -6,15 +6,20 @@
 </head>
 <body>
 {% extends "notepad/base.html" %}
+{% load bootstrap4 %}
+
+{% block page_header %}
+    <h2>Add new topic:</h2>
+{% endblock page_header %}
 
 {% block content %}
-
-<p>Add a new topic:</p>
-
-<form action="{% url 'notepad:new_topic' %}" method="POST">
+<form method="post" action="{% url 'notepad:new_topic' %}" class="form">
     {% csrf_token %}
-    {{ form.as_p }}
-    <button name="submit">add topic</button>
+      {% bootstrap_form form %}
+      {% buttons %}
+      <button name="submit" class="btn btn-primary">Add topic</button>
+      {% endbuttons %}
+    <input type="hidden" name="next" value="{% url 'notepad:index' %}" />
 </form>
 
 {% endblock content %}
